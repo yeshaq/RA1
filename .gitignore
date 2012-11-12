@@ -1,0 +1,15 @@
+*.out
+*~
+*.pyc
+*.eps
+*.pdf
+*.png
+*.root
+*.aux
+*.log
+*.nav
+*.snm
+*.toc
+AutoDict*
+linkdef_cxx.d
+linkdef_cxx.so
