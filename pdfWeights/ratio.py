@@ -12,7 +12,6 @@ canvas.SetTicky()
 models = ["T2bb"]#,"T1bbbb"]
 HTbins = ["275"]#,"275_scaled","325_scaled","375"])
 pdfSets = [["genMSTW2008nlo68cl", 41], ["gencteq66", 45],["genNNPDF20", 30]]
-#pdfSets = [["genNNPDF20", 30]]
 
 for model in models :
 
@@ -35,15 +34,20 @@ for model in models :
             result.SetTitle(";m_{parent} (GeV);m_{LSP} (GeV);ratio") 
             result.SetMarkerStyle(20)
             result.SetStats(False)
+            
+            envelFile = r.TFile("envel_%s_%s.root"%(model,ht),"UPDATE")
+            centralHist = r.TH2D("centralValue_%s_%s"%(ht,pdfSet[0]),"centralValue_%s_%s"%(ht,pdfSet[0]),81,0,2025,81,0,2025)
+            uncertUpHist = r.TH2D("uncertUpValue_%s_%s"%(ht,pdfSet[0]),"uncertUpValue_%s_%s"%(ht,pdfSet[0]),81,0,2025,81,0,2025)
+            uncertDownHist = r.TH2D("uncertDownValue_%s_%s"%(ht,pdfSet[0]),"uncertUpValue_%s_%s"%(ht,pdfSet[0]),81,0,2025,81,0,2025)
 
-            for xbin in range(denHist[0].GetXaxis().GetNbins()) :   # ISR cut-off
-                for ybin in range(denHist[0].GetYaxis().GetNbins()) :
-                    if (ybin*25 > xbin*25 - 175) or (xbin*25 <= 300)  : result.SetBinContent(xbin,ybin,0.0) 
+            for xbin in range(1,denHist[0].GetXaxis().GetNbins()) :   # ISR cut-off
+                for ybin in range(1,denHist[0].GetYaxis().GetNbins()) :
+                    if (ybin > xbin - 7) : result.SetBinContent(xbin,ybin,0.0) 
+                    if (xbin <= 12) : result.SetBinContent(xbin,ybin,0.0) 
             
             if not pdfSet[0] == "genNNPDF20" : 
-
-                for xbin in range(denHist[0].GetXaxis().GetNbins()) :
-                    for ybin in range(denHist[0].GetYaxis().GetNbins()) :
+                for xbin in range(1,denHist[0].GetXaxis().GetNbins()) :
+                    for ybin in range(1,denHist[0].GetYaxis().GetNbins()) :
                         if (result.GetBinContent(xbin,ybin)) == 0.0 : continue
                         centralAcc = denHist[0].GetBinContent(xbin,ybin)
                         dPlus = 0.
@@ -64,17 +68,29 @@ for model in models :
                                 dMinus += wp*wp
                         if (dPlus>0)  : dPlus = math.sqrt(dPlus)
                         if (dMinus>0) : dMinus = math.sqrt(dMinus)
-                        if denHist[0].GetBinContent(xbin,ybin) > 0  : 
+                        if denHist[0].GetBinContent(xbin,ybin) > 0  :
+                            centralAcceptRelVar = (centralAcc-numHist.GetBinContent(xbin,ybin))/numHist.GetBinContent(xbin,ybin)
                             print "---------------------------------------------------------------------------------------------"
+                            print pdfSet[0]
+                            print "mGl = %s GeV, mLSP = %s GeV"%(xbin*25,ybin*25)
                             print "centr. accept = %.2f%%"%(100*centralAcc)
-                            print "ie. %.2f%% relative variation with respect to original PDF"%((100*(centralAcc-numHist.GetBinContent(xbin,ybin))/numHist.GetBinContent(xbin,ybin)))
+                            print "ie. %.2f%% relative variation with respect to original PDF"%(100*centralAcceptRelVar)
                             result.SetBinContent(xbin,ybin,(100*(centralAcc-numHist.GetBinContent(xbin,ybin))/numHist.GetBinContent(xbin,ybin)))
-                            print "Relative uncertianty with respect to central member: +%.2f%% / -%.2f%% "%(100*dPlus,100*dMinus)
+                            if pdfSet[0] == "gencteq66" : dPlus/1.645, dMinus/1.645
+                            centralHist.SetBinContent(xbin,ybin,centralAcc)
+                            uncertUpHist.SetBinContent(xbin,ybin,dPlus*centralAcc)
+                            uncertDownHist.SetBinContent(xbin,ybin,dMinus*centralAcc)
+                            print centralHist.GetBinContent(xbin,ybin)
                             
+                            #"centralHist_%s_%s"%(ht,pdfSet[0]) = result.Clone()
+                            #"centralHist_%s_%s"%(ht,pdfSet[0]).SetBinContent(xbin,ybin,centralAcc)
+                            #print dPlus*centralAcc
+                            #print dMinus*centralAcc
+                            print "Relative uncertianty with respect to central member: +%.2f%% / -%.2f%% "%(100*dPlus,100*dMinus)
+                                        
             else :
-                print pdfSet[0]
-                for xbin in range(denHist[0].GetXaxis().GetNbins()) :
-                    for ybin in range(denHist[0].GetYaxis().GetNbins()) :
+                for xbin in range(1,denHist[0].GetXaxis().GetNbins()) :
+                    for ybin in range(1,denHist[0].GetYaxis().GetNbins()) :
                         if (result.GetBinContent(xbin,ybin)) == 0.0 : continue
                         mean_accept = 0
                         sq_std_accept = 0
@@ -85,12 +101,18 @@ for model in models :
                         for i in range(pdfSet[1]) :
                             sq_std_accept += (denHist[i].GetBinContent(xbin,ybin)-mean_accept)*(denHist[i].GetBinContent(xbin,ybin)-mean_accept)/(pdfSet[1]-1)  
                         std_accept = math.sqrt(sq_std_accept)
-                        print "mean accept = %.2f%%"%(100*mean_accept)
-                        print "ie. %.2f%% relative variation with respect to original PDF"%((100*(mean_accept-numHist.GetBinContent(xbin,ybin))/numHist.GetBinContent(xbin,ybin)))
+#                        print "---------------------------------------------------------------------------------------------"
+#                        print pdfSet[0]
+#                        print "xbin = %s, ybin = %s"%(xbin,ybin)
+#                        print "mGl = %s GeV, mLSP = %s GeV"%(xbin*25,ybin*25)
+#                        print "mean accept = %.2f%%"%(100*mean_accept)
+#                        print "ie. %.2f%% relative variation with respect to original PDF"%((100*(mean_accept-numHist.GetBinContent(xbin,ybin))/numHist.GetBinContent(xbin,ybin)))
                         result.SetBinContent(xbin,ybin,(100*(mean_accept-numHist.GetBinContent(xbin,ybin))/numHist.GetBinContent(xbin,ybin)))
-                        print "Relative uncertianty with respect to central member: +- %.2f%%"%(100*std_accept)
-                        
-                
+#                        print "Relative uncertianty with respect to central member: +- %.2f%%"%(100*std_accept)
+#            centralHist.Write()
+#            uncertUpHist.Write()
+#            uncertDownHist.Write()
+
 
             if "T1bbbb" in model :
                 result.SetMaximum(1.2)
@@ -105,7 +127,7 @@ for model in models :
                 
             if "T2bb" in model :
                 result.GetXaxis().SetRangeUser(0,1200)
-                result.GetYaxis().SetRangeUser(0,1200)
+                result.GetYaxis().SetRangeUser(0.,1200)
 #                result.SetMaximum(1.02)
 #                result.SetMinimum(0.80)
                 result.SetMaximum(15.0)
@@ -135,6 +157,15 @@ for model in models :
 
 
            
- #           os.system("epstopdf "+ epsFileName)
-#            os.remove(epsFileName)
+            os.system("epstopdf "+ epsFileName)
+            os.remove(epsFileName)
  
+#
+#
+#Take the central value x = 0:5max(x1+s1; x2+s2; x3+s3)+min(x1s1; x2s2; x3s3))
+#
+#and the symmetric error s = 0:5max(x1+s1; x2+s2; x3+s3)min(x1s1; x2s2; x3s3))
+#
+#where x1; x2; x3 are the central values of MSTW08, NNPDF2.0, CTEQ6.6 respectively and
+#
+#s1; s2; s3 are their 68% CL uncertainties.
