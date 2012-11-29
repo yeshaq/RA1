@@ -7,18 +7,20 @@ canvas.SetRightMargin(0.16)
 canvas.SetTickx()
 canvas.SetTicky()
 
-models = ["T2bb","T1bbbb"][1:2]
-pdfSets = ["cteq61l","mstw08", "cteq66",]
+models = ["T2bb","T1bbbb"][0:1]
+pdfSets = ["cteq61l","mstw08", "cteq66","nnpdf21"]
 histos = ["ExpectedUpperLimit_2D_shifted", "UpperLimit_2D_shifted"]
+dirs = ["v2_normalized"]
+suffix = ["","_normalized"][1]
 
 for model in models :
     for histo in histos :
         for pdfSet in pdfSets :
-            epsFileName = "%s_%s_%s_ratio.eps"%(model,pdfSet,histo)
-            numFile = r.TFile("%s.root"%pdfSets[0],"READ")
+            epsFileName = "%s/%s_%s%s_%s_ratio.eps"%(dirs[0],model,pdfSet,suffix,histo)
+            numFile = r.TFile("%s/%s_%s.root"%(dirs[0],model,pdfSets[0]),"READ")
             numHist = numFile.Get(histo)
-            
-            denFile = r.TFile("%s.root"%(pdfSet),"READ")
+            denFile = r.TFile("%s/%s_%s%s.root"%(dirs[0],model,pdfSet,suffix),"READ")
+            if pdfSet == "cteq61l" : denFile = r.TFile("%s/%s_%s.root"%(dirs[0],model,pdfSet),"READ")
             denHist = denFile.Get(histo)
             result = numHist.Clone()
             result.Divide(denHist)
@@ -32,12 +34,14 @@ for model in models :
             result.SetMarkerStyle(20)
             result.SetStats(False)
 
-
             if "T1bbbb" in model :
-                result.SetMaximum(1.68)
+                result.SetMaximum(1.45)
                 result.SetMinimum(0.8)
                 if "mstw" in pdfSet : 
-                    result.SetMaximum(1.35)
+                    result.SetMaximum(1.25)
+                    result.SetMinimum(0.9)
+                if "nnpdf21" in pdfSet : 
+                    result.SetMaximum(1.2)
                     result.SetMinimum(0.9)
                 #result.SetLabelSize(.05)
                 result.GetXaxis().SetLabelSize(.05)
@@ -47,10 +51,23 @@ for model in models :
                 result.GetZaxis().SetTitleOffset(.985)
 
             if "T2bb" in model :
+                result.SetMaximum(1.1)
+                result.SetMinimum(0.8)
+                if "mstw" in pdfSet : 
+                    result.SetMaximum(1.1)
+                    result.SetMinimum(0.9)
+                if "nnpdf21" in pdfSet : 
+                    result.SetMaximum(1.1)
+                    result.SetMinimum(0.9)
+                #result.SetLabelSize(.05)
+                result.GetXaxis().SetLabelSize(.05)
+                result.GetYaxis().SetLabelSize(.05)
+                result.GetZaxis().SetLabelSize(.05)
+                result.GetYaxis().SetTitleOffset(.985)
+                result.GetZaxis().SetTitleOffset(.985)
+
                 result.GetXaxis().SetRangeUser(0,1200)
                 result.GetYaxis().SetRangeUser(0.,1200)
-                result.SetMaximum(15.0)
-                result.SetMinimum(0.0)
             result.Draw("colz")
 
             canvas.Print(epsFileName)
@@ -64,8 +81,9 @@ for model in models :
 for model in models :
     for histo in histos :
         for pdfSet in pdfSets :
-            epsFileName = "%s_%s_%s.eps"%(model,pdfSet,histo)
-            origFile = r.TFile("%s.root"%pdfSet,"READ")
+            epsFileName = "%s/%s_%s%s_%s.eps"%(dirs[0],model,pdfSet,suffix,histo)
+            origFile = r.TFile("%s/%s_%s%s.root"%(dirs[0],model,pdfSet,suffix),"READ")
+            if pdfSet == "cteq61l" : origFile = r.TFile("%s/%s_%s.root"%(dirs[0],model,pdfSet),"READ")
             origHist = origFile.Get(histo)
 
             result = origHist.Clone()
@@ -93,8 +111,12 @@ for model in models :
             if "T2bb" in model :
                 result.GetXaxis().SetRangeUser(0,1200)
                 result.GetYaxis().SetRangeUser(0.,1200)
-                result.SetMaximum(15.0)
-                result.SetMinimum(0.0)
+                result.SetMaximum(10)
+                result.SetMinimum(.001)
+                canvas.SetLogz()
+                result.GetXaxis().SetLabelSize(.05)
+                result.GetYaxis().SetLabelSize(.05)
+                result.GetZaxis().SetLabelSize(.05)
             result.Draw("colz")
 
             canvas.Print(epsFileName)
