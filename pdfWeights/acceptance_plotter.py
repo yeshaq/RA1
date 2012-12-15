@@ -1,20 +1,22 @@
 import ROOT as r
+import common as c
 import os, subprocess
-import glob
+
 
 
 canvas = r.TCanvas()
 canvas.SetRightMargin(0.2)
 canvas.SetTickx()
 canvas.SetTicky()
-version = ["v1","v2","v3","v4"][3]
 
-HTbins = ["275","275_scaled","325_scaled"][0:1]
-mods_and_pdfs = [("T1bbbb",["","_gencteq66","_genMSTW2008nlo68cl"]),("T1bbbb_nnpdf",["","_genNNPDF21"]),("T1bbbb_ct10",["","_genct10"])]
-
+#mods_and_pdfs = [("T1bbbb",["","_gencteq66","_genMSTW2008nlo68cl"]),("T1bbbb_nnpdf",["","_genNNPDF21"]),("T1bbbb_ct10",["","_genct10"])]
+mods_and_pdfs = c.mods_and_pdfs
+htbins = [c.htbins[0][0].strip("_scaled")]
 for modAndPdf in mods_and_pdfs :
-    for ht in HTbins :
-        for pdfSet in modAndPdf[1] :
+    tmp = ["_"+w for w in modAndPdf[1]]
+    tmp.append("")
+    for ht in htbins :
+        for pdfSet in tmp :
             epsFileName = "output/acc_%s_%s%s.eps"%(modAndPdf[0],ht,pdfSet)
             accFile = r.TFile("output/acc_%s_%s%s.root"%(modAndPdf[0],ht,pdfSet),"READ")
             accHist = accFile.Get("nEvents")
@@ -24,8 +26,6 @@ for modAndPdf in mods_and_pdfs :
             result.SetTitle(";m_{parent} (GeV);m_{LSP} (GeV);acceptance") 
             result.SetMarkerStyle(20)
             result.SetStats(False)
-            
-
             
             if "T1bbbb" in modAndPdf[0] :
                 line = r.TLine(300,125,2025,1850)
