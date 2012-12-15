@@ -39,7 +39,18 @@ for bJet in bJets :
 dirNames.append("smsScan_ge4b_ge4j_AlphaT55_375")
 htbins = [("275_scaled",afadd_275),("325_scaled",afadd_325),("375",afadd_375)][0:3]
 weights = ["","wPdfWeights"][0:2]
-mods_and_pdfs = [("T1bbbb",["gencteq66","genMSTW2008nlo68cl"]),("T1bbbb_nnpdf",["genNNPDF21"]),("T1bbbb_nnpdf_ct10",["genct10"])]
+
+mods_and_pdfs = [("T1bbbb",["gencteq66","genMSTW2008nlo68cl"]),
+                 ("T1bbbb_nnpdf",["genNNPDF21"]),
+                 ("T1bbbb_nnpdf_ct10",["genct10"]),
+                 ("T2bb",["gencteq66","genMSTW2008nlo68cl"]),
+                 ("T2bb_nnpdf",["genNNPDF21"]),
+                 ("T2bb_nnpdf_ct10",["genct10"])][0:3]
+
+def modelParser(toBeParsed = "", parsed = "") :
+    parsed = toBeParsed.replace("_nnpdf","").replace("_ct10","")
+    return parsed
+
 for weight in weights :
     if weight == "" :
         for modAndPdf in mods_and_pdfs :
