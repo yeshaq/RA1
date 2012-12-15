@@ -13,11 +13,18 @@ models = ["T2bb","T1bbbb_nnpdf_ct10"][1:2]
 HTbins = ["275","275_scaled","325_scaled","375","875"][0:1]
 pdfSets = ["genMSTW2008nlo68cl", "gencteq66","genNNPDF20","genct10"][3:4]
 mods_and_pdfs = [("T1bbbb",["gencteq66","genMSTW2008nlo68cl"]),("T1bbbb_nnpdf",["genNNPDF21"]),("T1bbbb_ct10",["genct10"])]
+
+def modelParser(toBeParsed = "", parsed = "") :
+    parsed = toBeParsed.replace("_nnpdf","").replace("_ct10","")
+    return parsed
+
 for modAndPdf in mods_and_pdfs :
     for ht in HTbins :
         for pdfSet in modAndPdf[1] :
             epsFileName = "output/%s_%s_%s_acc_ratio.eps"%(modAndPdf[0],ht,pdfSet)
-            numFile = r.TFile("output/acc_%s_%s.root"%(modAndPdf[0],ht),"READ")
+            numFile = r.TFile("output/acc_%s_%s.root"%(modelParser(modAndPdf[0]),ht),"READ")
+            print "Using nominal pdf found in %s for numerator of ratio"%"output/acc_%s_%s.root"%(modelParser(modAndPdf[0]),ht)
+            
             numHist = numFile.Get("nEvents")
     
             denFile = r.TFile("output/acc_%s_%s_%s.root"%(modAndPdf[0],ht,pdfSet),"READ")
