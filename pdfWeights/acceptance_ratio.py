@@ -1,25 +1,22 @@
 import ROOT as r
-import os, subprocess
-import glob
+import common as c
+import os
+
 
 
 canvas = r.TCanvas()
 canvas.SetRightMargin(0.2)
 canvas.SetTickx()
 canvas.SetTicky()
-version = ["v1","v2","v3"][2]
 
-models = ["T2bb","T1bbbb_nnpdf_ct10"][1:2]
-HTbins = ["275","275_scaled","325_scaled","375","875"][0:1]
-pdfSets = ["genMSTW2008nlo68cl", "gencteq66","genNNPDF20","genct10"][3:4]
-mods_and_pdfs = [("T1bbbb",["gencteq66","genMSTW2008nlo68cl"]),("T1bbbb_nnpdf",["genNNPDF21"]),("T1bbbb_ct10",["genct10"])]
+htBins = [c.htbins[0][0].strip("_scaled")]
 
 def modelParser(toBeParsed = "", parsed = "") :
-    parsed = toBeParsed.replace("_nnpdf","").replace("_ct10","")
+    parsed = toBeParsed.strip("_nnpdf_ct10")
     return parsed
 
-for modAndPdf in mods_and_pdfs :
-    for ht in HTbins :
+for modAndPdf in c.mods_and_pdfs :
+    for ht in htBins :
         for pdfSet in modAndPdf[1] :
             epsFileName = "output/%s_%s_%s_acc_ratio.eps"%(modAndPdf[0],ht,pdfSet)
             numFile = r.TFile("output/acc_%s_%s.root"%(modelParser(modAndPdf[0]),ht),"READ")
@@ -36,8 +33,6 @@ for modAndPdf in mods_and_pdfs :
             result.SetTitle(";m_{parent} (GeV);m_{LSP} (GeV);ratio") 
             result.SetMarkerStyle(20)
             result.SetStats(False)
-            
-
             
             if "T1bbbb" in modAndPdf[0] :
                 result.SetMaximum(1.15)
@@ -77,6 +72,3 @@ for modAndPdf in mods_and_pdfs :
            
             os.system("epstopdf "+ epsFileName)
             os.remove(epsFileName)
-
-
-
