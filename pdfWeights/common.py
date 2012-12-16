@@ -44,4 +44,5 @@ for bJet in bJets :
             keyNames.append(keyName)
 dirNames.append("smsScan_ge4b_ge4j_AlphaT55_375")
 
+nPdfDict = {"gencteq66":45,"genMSTW2008nlo68cl":41,"genct10":53,"genNNPDF21":101}
 
