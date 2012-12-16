@@ -9,9 +9,9 @@ afadd_325 = afadd_275.replace("lowestUnPrescaledTriggerFilter/", "")
 htbins = [("275_scaled",afadd_275),("325_scaled",afadd_325),("375",afadd_375)][0:3]
 weights = ["","wPdfWeights"][0:2]
 mods_and_pdfs = [("T1bbbb",["gencteq66","genMSTW2008nlo68cl"]),
-                 ("T1bbbb_nnpdf_ct10",["genct10"]),
+                 ("T1bbbb_nnpdf_ct10",["genNNPDF21","genct10"]),
                  ("T2bb",["gencteq66","genMSTW2008nlo68cl"]),
-                 ("T2bb_nnpdf_ct10",["genct10"])][0:2]
+                 ("T2bb_nnpdf_ct10",["genNNPDF21","genct10"])]
 
 
 histPrefix = ["nEvents"]
