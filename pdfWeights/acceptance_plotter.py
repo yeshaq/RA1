@@ -9,7 +9,6 @@ canvas.SetRightMargin(0.2)
 canvas.SetTickx()
 canvas.SetTicky()
 
-#mods_and_pdfs = [("T1bbbb",["","_gencteq66","_genMSTW2008nlo68cl"]),("T1bbbb_nnpdf",["","_genNNPDF21"]),("T1bbbb_ct10",["","_genct10"])]
 mods_and_pdfs = c.mods_and_pdfs
 htbins = [c.htbins[0][0].strip("_scaled")]
 for modAndPdf in mods_and_pdfs :
