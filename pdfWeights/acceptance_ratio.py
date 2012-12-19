@@ -8,7 +8,7 @@ canvas = r.TCanvas()
 canvas.SetRightMargin(0.2)
 canvas.SetTickx()
 canvas.SetTicky()
-
+r.gStyle.SetNumberContours(40)
 htBins = [c.htbins[0][0].strip("_scaled")]
 
 def modelParser(toBeParsed = "", parsed = "") :
@@ -38,8 +38,8 @@ for modAndPdf in c.mods_and_pdfs :
 	            result.SetStats(False)
 	            
 	            if "T1bbbb" in modAndPdf[0] :
-	                result.SetMaximum(1.15)
-	                result.SetMinimum(0.85)
+	                result.SetMaximum(1.3)
+	                result.SetMinimum(0.9)
 	                line = r.TLine(300,125,2025,1850)
 	                #line = r.TLine(300,125,1200,1025)
 	                line2 = r.TLine(300,50,300,125)
@@ -48,8 +48,8 @@ for modAndPdf in c.mods_and_pdfs :
 	            if "T2bb" in modAndPdf[0] :
 	                result.GetXaxis().SetRangeUser(0,1200)
 	                result.GetYaxis().SetRangeUser(0,1200)
-	                result.SetMaximum(1.15)
-	                result.SetMinimum(0.85)
+	                result.SetMaximum(1.3)
+	                result.SetMinimum(0.9)
 	
 	                line = r.TLine(300,125,1225,1050)
 	                #line = r.TLine(300,125,1200,1025)
@@ -73,5 +73,6 @@ for modAndPdf in c.mods_and_pdfs :
 	            result.SetName("acc_ratio_%s_%s_%s_%s"%(modAndPdf[0],ht,pdfSet,i))
 	            result.Write()
 	           
-	 #           os.system("epstopdf "+ epsFileName)
-	 #           os.remove(epsFileName)
+	            if i == 0 :
+                        os.system("epstopdf "+ epsFileName)
+                        os.remove(epsFileName)
