@@ -1,0 +1,317 @@
+\documentclass{beamer}
+\setbeamertemplate{navigation symbols}{\thepage}
+
+\begin{document}
+
+\title{PDF Systematic Studies}
+\author{Y.~Eshaq, E.~Laird \\
+  \today}
+\date{}
+%\date{\today}
+\setbeamertemplate{footline}{}
+
+\frame{\titlepage}
+
+\frame{
+  \frametitle{Effect of varying PDF on inclusive acceptance}
+}
+
+
+\frame{
+  \frametitle{T1bbbb: $H_T>275$~GeV}
+  
+  \begin{columns}[ccc]
+    \column{0.25\paperwidth}\centering
+    Acceptance Ratio
+    \includegraphics[width=\textwidth]{../output/T1bbbb_275_gencteq66_acc_ratio.pdf} \\
+    $\frac{CTEQ6L1}{CTEQ6.6}$
+
+    \column{0.25\paperwidth}\centering
+    Acceptance Ratio
+    \includegraphics[width=\textwidth]{../output/T1bbbb_nnpdf_ct10_275_genct10_acc_ratio.pdf} \\
+    $\frac{CTEQ6L1}{CTEQ10}$
+    
+    \column{0.25\paperwidth}\centering
+    Acceptance Ratio
+    \includegraphics[width=\textwidth]{../output/T1bbbb_275_genMSTW2008nlo68cl_acc_ratio.pdf} \\
+    $\frac{CTEQ6L1}{MSTW2008}$
+
+    \column{0.25\paperwidth}\centering
+    Acceptance Ratio
+    \includegraphics[width=\textwidth]{../output/T1bbbb_nnpdf_ct10_275_genNNPDF21_acc_ratio.pdf} \\
+    $\frac{CTEQ6L1}{NNPDF2.1}$
+
+  \end{columns}
+  \begin{itemize}
+  \item Central value of PDF used for all PDF sets  
+  \item Use these ratios to normalize initial number of events
+  \end{itemize}   
+}
+
+\frame{
+  \frametitle{T2bb: $H_T>275$~GeV}
+  
+  \begin{columns}[ccc]
+    \column{0.25\paperwidth}\centering
+    Acceptance Ratio
+    \includegraphics[width=\textwidth]{../output/T2bb_275_gencteq66_acc_ratio.pdf} \\
+    $\frac{CTEQ6L1}{CTEQ6.6}$
+    
+    \column{0.25\paperwidth}\centering
+    Acceptance Ratio
+    \includegraphics[width=\textwidth]{../output/T2bb_nnpdf_ct10_275_genct10_acc_ratio.pdf} \\
+    $\frac{CTEQ6L1}{CTEQ10}$
+
+    \column{0.25\paperwidth}\centering
+    Acceptance Ratio
+    \includegraphics[width=\textwidth]{../output/T2bb_275_genMSTW2008nlo68cl_acc_ratio.pdf} \\
+    $\frac{CTEQ6L1}{MSTW2008}$
+
+    \column{0.25\paperwidth}\centering
+    Acceptance Ratio
+    \includegraphics[width=\textwidth]{../output/T2bb_nnpdf_ct10_275_genNNPDF21_acc_ratio.pdf} \\
+    $\frac{CTEQ6L1}{NNPDF2.1}$
+
+  \end{columns}
+  \begin{itemize}
+  \item Central value of PDF used for all PDF sets  
+  \item Use these ratios to normalize initial number of events
+  \end{itemize}   
+}
+
+\frame{
+  \frametitle{Effect of varying PDF on XS upper limits}
+  With total acceptance fixed to that of CTEQ6L1
+}
+%
+%\frame{
+%  \frametitle{T1bbbb}
+%  
+%  \begin{columns}[cccc]
+%    \column{0.20\paperwidth}\centering
+%     \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct61_UpperLimit.pdf} \\
+%     \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct61_ExpectedUpperLimit.pdf} \\
+%    CTEQ6L1 
+%    
+%    \column{0.20\paperwidth}\centering
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct66_UpperLimit.pdf} \\
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct66_ExpectedUpperLimit.pdf} \\
+%    CTEQ6.6
+%
+%    \column{0.20\paperwidth}\centering
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct10_UpperLimit.pdf} \\
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct10_ExpectedUpperLimit.pdf} \\
+%    CT10
+%
+%    \column{0.20\paperwidth}\centering
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ms08_UpperLimit.pdf} \\
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ms08_ExpectedUpperLimit.pdf} \\
+%    MSTW2008
+%
+%    \column{0.20\paperwidth}\centering
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_nn21_UpperLimit.pdf} \\
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_nn21_ExpectedUpperLimit.pdf} \\
+%    NNPDF2.1
+%
+%  \end{columns}
+%  \begin{itemize}
+%  \item Central value of PDF used for all PDF sets  
+%  \item Normalized event yields 
+%  \end{itemize}   
+%}
+%
+\frame{
+  \frametitle{T1bbbb}
+  
+  \begin{columns}[ccc]
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct66_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct66_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CTEQ6L1}{CTEQ6.6}$
+
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct10_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct10_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CTEQ6L1}{CT10}$
+
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ms08_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ms08_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CTEQ6L1}{MSTW2008}$
+
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_nn21_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_nn21_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CTEQ6L1}{NNPDF2.1}$
+
+  \end{columns}
+  \begin{itemize}
+  \item Central value of PDF used for all PDF sets  
+  \item Normalized event yields 
+  \end{itemize}   
+}
+
+\frame{
+  \frametitle{T1bbbb}
+  
+  \begin{columns}[ccc]
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct10Overms08_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct10Overms08_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CT10}{MSTW2008}$    
+   
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct10Overct66_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct10Overct66_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CT10}{CTEQ6.6}$    
+
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct10Overnn21_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ct10Overnn21_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CT10}{NNPDF2.1}$    
+
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ms08Overnn21_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T1bbbb_ms08Overnn21_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{MSTW2008}{NNPDF2.1}$
+  \end{columns}
+  \begin{itemize}
+  \item Central value of PDF used for all PDF sets  
+  \item Normalized event yields 
+  \end{itemize}   
+}
+
+%\frame{
+%  \frametitle{T2bb}
+%  
+%  \begin{columns}[cccc]
+%    \column{0.20\paperwidth}\centering
+%     \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct61_UpperLimit.pdf} \\
+%     \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct61_ExpectedUpperLimit.pdf} \\
+%    CTEQ6L1 
+%    
+%    \column{0.20\paperwidth}\centering
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct66_UpperLimit.pdf} \\
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct66_ExpectedUpperLimit.pdf} \\
+%    CTEQ6.6
+%
+%    \column{0.20\paperwidth}\centering
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct10_UpperLimit.pdf} \\
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct10_ExpectedUpperLimit.pdf} \\
+%    CT10
+%
+%    \column{0.20\paperwidth}\centering
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ms08_UpperLimit.pdf} \\
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ms08_ExpectedUpperLimit.pdf} \\
+%    MSTW2008
+%
+%    \column{0.20\paperwidth}\centering
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_nn21_UpperLimit.pdf} \\
+%    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_nn21_ExpectedUpperLimit.pdf} \\
+%    NNPDF2.1
+%
+%  \end{columns}
+%  \begin{itemize}
+%  \item Central value of PDF used for all PDF sets  
+%  \item Normalized event yields 
+%  \end{itemize}   
+%}
+
+\frame{
+  \frametitle{T2bb}
+  
+  \begin{columns}[ccc]
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct66_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct66_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CTEQ6L1}{CTEQ6.6}$
+
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct10_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct10_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CTEQ6L1}{CT10}$
+
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ms08_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ms08_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CTEQ6L1}{MSTW2008}$
+
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_nn21_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_nn21_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CTEQ6L1}{NNPDF2.1}$
+
+  \end{columns}
+  \begin{itemize}
+  \item Central value of PDF used for all PDF sets  
+  \item Normalized event yields 
+  \end{itemize}   
+}
+
+\frame{
+  \frametitle{T2bb}
+  
+  \begin{columns}[ccc]
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct10Overms08_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct10Overms08_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CT10}{MSTW2008}$    
+    
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct10Overct66_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct10Overct66_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CT10}{CTEQ6.6}$    
+
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct10Overnn21_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ct10Overnn21_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{CT10}{NNPDF2.1}$    
+
+    \column{0.25\paperwidth}\centering
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ms08Overnn21_UpperLimit_ratio.pdf} \\
+    \includegraphics[width=\textwidth]{../limit_ratio/output/T2bb_ms08Overnn21_ExpectedUpperLimit_ratio.pdf} \\
+    $\frac{MSTW2008}{NNPDF2.1}$
+  \end{columns}
+  \begin{itemize}
+  \item Central value of PDF used for all PDF sets  
+  \item Normalized event yields 
+  \end{itemize}   
+}
+
+\frame{
+  \frametitle{Conclusions and Plan}
+  \begin{itemize}
+  \item Current systematic (10\%) covers change in total acceptance for T1bbbb, T2bb
+  \item T2bb limit changes by less than 10\% (for fixed total acceptance)
+  \item T1bbbb limit changes by more than 10\% at upper diagonal \\ for CTEQ6L1 to CTEQ6.6 (for fixed total acceptance)
+  \item T1bbbb limit robust w.r.t change between MSTW 2008 and NNPDF2.1 (for fixed total acceptance)
+  \item[]
+  \end{itemize}
+  \begin{itemize}
+  \item Look at CT10 (ntuples half completed)
+  \item Look at variations within a pdf set. 
+  \end{itemize}
+}
+
+
+\frame{
+  \frametitle{Backup}
+}
+
+\frame{
+  \frametitle{Normalization}
+%  \begin{equation}\label{xx}
+      \begin{align}
+      \epsilon_{cteq6.6}& \equiv \frac{n_{cteq6.6}^{after}}{n_{cteq6.6}^{before}} \\
+      \epsilon_{cteq6.1}& =\epsilon_{cteq6.6} \cdot \left( \frac{\epsilon_{cteq6.1}}{\epsilon_{cteq6.6}} \right) \\
+                        & =\left(\frac{n_{cteq6.6}^{after}}{n_{cteq6.6}^{before}} \right) \cdot \left( \frac{\epsilon_{cteq6.1}}{\epsilon_{cteq6.6}} \right) \\
+                        & =\frac{n_{cteq6.6}^{after}}{n_{cteq6.6}^{before} \left(\frac{\epsilon_{cteq6.6}}{\epsilon_{cteq6.1}} \right)} = \epsilon_{cteq6.6}^{normalized}    
+      \end{align}
+%  \end{equation}
+}
+
+
+\end{document}
+
+
+
