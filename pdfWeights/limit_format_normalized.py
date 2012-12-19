@@ -67,7 +67,7 @@ for weight in c.weights :
             	    alt_keyNames.append(keyName + "_%s_0"%pdfSet)
                 for ht in c.htbins :
             	     scaleFile = r.TFile("output/acc_ratio_%s_275_%s.root"%(modAndPdf[0],pdfSet),"READ")
-            	     scaleHist = scaleFile.Get("acc_ratio_%s_275_%s"%(modAndPdf[0],pdfSet))
+            	     scaleHist = scaleFile.Get("acc_ratio_%s_275_%s_0"%(modAndPdf[0],pdfSet))
             	     print "--------"
             	     print "scale @ (%d,%d) = %s"%(20,15,scaleHist.GetBinContent(20,15))
             	     rtfile = "%s/%s_calo_ge2_%s/%s_plots.root"%(c.version,ht[0],weight,modAndPdf[0])
