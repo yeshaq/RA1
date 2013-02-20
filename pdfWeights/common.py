@@ -11,8 +11,8 @@ weights = ["","wPdfWeights"][0:2]
 mods_and_pdfs = [("T1bbbb",["gencteq66","genMSTW2008nlo68cl"]),
                  ("T1bbbb_nnpdf_ct10",["genNNPDF21","genct10"]),
                  ("T2bb",["gencteq66","genMSTW2008nlo68cl"]),
-                 ("T2bb_nnpdf_ct10",["genNNPDF21","genct10"])]
-
+                 ("T2bb_nnpdf_ct10",["genNNPDF21","genct10"]),
+                 ("T2cc_nnpdf_ct10",["genNNPDF21","genct10"])][4:5]
 
 histPrefix = ["nEvents"]
 dirPrefix = ["smsScan"]
