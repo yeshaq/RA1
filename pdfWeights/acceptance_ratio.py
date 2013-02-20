@@ -19,9 +19,10 @@ for modAndPdf in c.mods_and_pdfs :
     for ht in htBins :
         for pdfSet in modAndPdf[1] :
             epsFileName = "output_fullScale/%s_%s_%s_acc_ratio.eps"%(modAndPdf[0],ht,pdfSet)
-            numFile = r.TFile("output/acc_%s_%s.root"%(modelParser(modAndPdf[0]),ht),"READ")
-            #numFile = r.TFile("output/acc_%s_%s.root"%(modAndPdf[0],ht),"READ")
-            print "Using nominal pdf found in %s for numerator of ratio"%"output/acc_%s_%s.root"%(modelParser(modAndPdf[0]),ht)
+            #numFile = r.TFile("output/acc_%s_%s.root"%(modelParser(modAndPdf[0]),ht),"READ")
+            #print "Using nominal pdf found in %s for numerator of ratio"%"output/acc_%s_%s.root"%(modelParser(modAndPdf[0]),ht)            
+            numFile = r.TFile("output/acc_%s_%s.root"%(modAndPdf[0],ht),"READ")
+            print "Using nominal pdf found in %s for numerator of ratio"%"output/acc_%s_%s.root"%(modAndPdf[0],ht)            
 
             numHist = numFile.Get("nEvents")
     
@@ -36,10 +37,12 @@ for modAndPdf in c.mods_and_pdfs :
 	            result.SetTitle(";m_{parent} (GeV);m_{LSP} (GeV);ratio") 
 	            result.SetMarkerStyle(20)
 	            result.SetStats(False)
+
+                    if "T2cc" not in modAndPdf[0] :
                     
-                    for xbin in range(result.GetXaxis().GetNbins()) :
-                        for ybin in range(result.GetYaxis().GetNbins()) :
-                            if (ybin*25 > xbin*25 - 175) or (xbin*25 <= 300)  : result.SetBinContent(xbin,ybin,0.0) 
+                        for xbin in range(result.GetXaxis().GetNbins()) :
+                            for ybin in range(result.GetYaxis().GetNbins()) :
+                                if (ybin*25 > xbin*25 - 175) or (xbin*25 <= 300)  : result.SetBinContent(xbin,ybin,0.0) 
 
 	            
 	            if "T1bbbb" in modAndPdf[0] :
@@ -64,19 +67,30 @@ for modAndPdf in c.mods_and_pdfs :
 	                #line = r.TLine(300,125,1200,1025)
 	                line2 = r.TLine(300,50,300,125)
 	                lineDiag = r.TLine(100,100,1225,1225)
+
+	            if "T2cc" in modAndPdf[0] :
+	                result.GetXaxis().SetRangeUser(100,300)
+	                result.GetYaxis().SetRangeUser(0, 300)
+                        result.RebinY(2)
+                        result.RebinX(5)
+                        result.SetMaximum(1.1)
+	                result.SetMinimum(0.85)
 	
 	            result.Draw("colz")
+
+                    if "T2cc" not in modAndPdf[0] :
 	
-	            lineDiag.SetLineStyle(2)
-	           
-	            line.SetLineWidth(2)
-	            line2.SetLineWidth(2)
-	            lineDiag.SetLineWidth(2)
-	           
-	            #line.Draw("lsame")
-	            #line2.Draw("lsame")
-	            #lineDiag.Draw("lsame")
-	           
+		            lineDiag.SetLineStyle(2)
+		           
+		            line.SetLineWidth(2)
+		            line2.SetLineWidth(2)
+		            lineDiag.SetLineWidth(2)
+	
+		           
+		            #line.Draw("lsame")
+		            #line2.Draw("lsame")
+		            #lineDiag.Draw("lsame")
+		           
 	            canvas.Print(epsFileName)
 	
 	            result.SetName("acc_ratio_%s_%s_%s_%s"%(modAndPdf[0],ht,pdfSet,i))

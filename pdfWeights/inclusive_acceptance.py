@@ -15,8 +15,14 @@ for weight in c.weights :
         for modAndPdf in c.mods_and_pdfs :
             for ht in c.htbins :
                 rtfile = "%s/%s_calo_ge2_%s/%s_plots.root"%(c.version,ht[0],weight,modAndPdf[0])
-                beforeHist = r.TH2D("nEvents_before","nEvents",81,0,2025,81,0,2025)
-                afterHist =  r.TH2D("nEvents_after","nEvents",81,0,2025,81,0,2025)
+
+                if "T2cc" in modAndPdf[0] :
+                    beforeHist = r.TH2D("nEvents_before","nEvents",34,90,260,50,10,260)
+                    afterHist =  r.TH2D("nEvents_after","nEvents",34,90,260,50,10,260)                
+                else :
+                    beforeHist = r.TH2D("nEvents_before","nEvents",81,0,2025,81,0,2025)
+                    afterHist =  r.TH2D("nEvents_after","nEvents",81,0,2025,81,0,2025)
+                    
                 infile = r.TFile(rtfile,"READ")
                 befdir = infile.GetDirectory("master/progressPrinter/label/scanHistogrammer/")
                 befkeylist = befdir.GetListOfKeys()        
@@ -39,8 +45,14 @@ for weight in c.weights :
             for pdfSet in modAndPdf[1] :
                 for ht in c.htbins :
                     rtfile = "%s/%s_calo_ge2_%s/%s_plots.root"%(c.version,ht[0],weight,modAndPdf[0])
-                    beforeHist = r.TH2D("nEvents_before","nEvents",81,0,2025,81,0,2025)
-                    afterHist =  r.TH2D("nEvents_after","nEvents",81,0,2025,81,0,2025)
+
+                    if "T2cc" in modAndPdf[0] :
+                        beforeHist = r.TH2D("nEvents_before","nEvents",34,90,260,50,10,260)
+                        afterHist =  r.TH2D("nEvents_after","nEvents",34,90,260,50,10,260)                
+                    else :
+                        beforeHist = r.TH2D("nEvents_before","nEvents",81,0,2025,81,0,2025)
+                        afterHist =  r.TH2D("nEvents_after","nEvents",81,0,2025,81,0,2025)
+            
                     infile = r.TFile(rtfile,"READ")
                     befdir = infile.GetDirectory("master/progressPrinter/label/scanHistogrammer/")
                     befkeylist = befdir.GetListOfKeys()

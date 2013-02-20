@@ -41,18 +41,30 @@ for modAndPdf in mods_and_pdfs :
                 line2 = r.TLine(300,50,300,125)
                 lineDiag = r.TLine(100,100,1225,1225)
 
+            if "T2cc" in modAndPdf[0] :
+                result.GetXaxis().SetRangeUser(100,300)
+                result.GetYaxis().SetRangeUser(0, 300)
+                result.RebinY(2)
+                result.RebinX(5)
+                line = r.TLine(300,125,1225,1050)
+                #line = r.TLine(300,125,1200,1025)
+                line2 = r.TLine(300,50,300,125)
+                lineDiag = r.TLine(100,100,1225,1225)
+
+
             result.Draw("colz")
 
-            lineDiag.SetLineStyle(2)
-           
-            line.SetLineWidth(2)
-            line2.SetLineWidth(2)
-            lineDiag.SetLineWidth(2)
-           
-            line.Draw("lsame")
-            line2.Draw("lsame")
-            lineDiag.Draw("lsame")
-           
+            if "T2cc" not in modAndPdf[0] :
+	            lineDiag.SetLineStyle(2)
+	           
+	            line.SetLineWidth(2)
+	            line2.SetLineWidth(2)
+	            lineDiag.SetLineWidth(2)
+	           
+	            line.Draw("lsame")
+	            line2.Draw("lsame")
+	            lineDiag.Draw("lsame")
+	           
             canvas.Print(epsFileName)
            
             os.system("epstopdf "+ epsFileName)
