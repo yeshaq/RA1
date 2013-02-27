@@ -12,17 +12,19 @@ r.gStyle.SetNumberContours(40)
 htBins = [c.htbins[0][0].strip("_scaled")]
 
 def modelParser(toBeParsed = "", parsed = "") :
-    parsed = toBeParsed.strip("_nnpdf_ct10")
+    #parsed = toBeParsed.strip("_nnpdf_ct10") ## >>> 'www.example.com'.strip('cmowz.')
+                                             ## >>> 'example'
+    parsed = toBeParsed.replace("_nnpdf_ct10", "")
     return parsed
 
 for modAndPdf in c.mods_and_pdfs :
     for ht in htBins :
         for pdfSet in modAndPdf[1] :
             epsFileName = "output_fullScale/%s_%s_%s_acc_ratio.eps"%(modAndPdf[0],ht,pdfSet)
-            #numFile = r.TFile("output/acc_%s_%s.root"%(modelParser(modAndPdf[0]),ht),"READ")
-            #print "Using nominal pdf found in %s for numerator of ratio"%"output/acc_%s_%s.root"%(modelParser(modAndPdf[0]),ht)            
-            numFile = r.TFile("output/acc_%s_%s.root"%(modAndPdf[0],ht),"READ")
-            print "Using nominal pdf found in %s for numerator of ratio"%"output/acc_%s_%s.root"%(modAndPdf[0],ht)            
+            numFile = r.TFile("output/acc_%s_%s.root"%(modelParser(modAndPdf[0]),ht),"READ")
+            print "Using nominal pdf found in %s for numerator of ratio"%"output/acc_%s_%s.root"%(modelParser(modAndPdf[0]),ht)            
+            #numFile = r.TFile("output/acc_%s_%s.root"%(modAndPdf[0],ht),"READ")
+            #print "Using nominal pdf found in %s for numerator of ratio"%"output/acc_%s_%s.root"%(modAndPdf[0],ht)            
 
             numHist = numFile.Get("nEvents")
     
