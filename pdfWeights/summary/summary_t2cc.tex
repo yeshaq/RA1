@@ -1,0 +1,95 @@
+\documentclass{beamer}
+\setbeamertemplate{navigation symbols}{\thepage}
+
+\begin{document}
+
+\title{PDF Systematic Studies}
+\author{Y.~Eshaq, E.~Laird \\
+  \today}
+\date{}
+%\date{\today}
+\setbeamertemplate{footline}{}
+
+\frame{\titlepage}
+
+\frame{
+  \frametitle{Effect of varying PDF on inclusive acceptance}
+}
+
+\frame{
+  \frametitle{T2cc: $H_T>275$~GeV}
+  
+  \begin{columns}[ccc]
+    \column{0.25\paperwidth}\centering
+    Acceptance
+    \includegraphics[width=\textwidth]{../output/acc_T2cc_nnpdf_ct10_275.pdf} \\
+    CTEQ6L1
+    
+    \column{0.25\paperwidth}\centering
+    Acceptance
+    \includegraphics[width=\textwidth]{../output/acc_T2cc_nnpdf_ct10_275_genct10.pdf} \\
+    CT10
+    
+    \column{0.25\paperwidth}\centering
+    Acceptance
+    \includegraphics[width=\textwidth]{../output/acc_T2cc_nnpdf_ct10_275_genNNPDF21.pdf} \\
+    NNPDF2.1
+
+    \column{0.25\paperwidth}\centering
+    Acceptance
+    \includegraphics[width=\textwidth]{../output/acc_T2cc_275_genMSTW2008nlo68cl.pdf} \\
+    MSTW2008
+
+  \end{columns}
+  \begin{itemize}
+  \item Central value of PDF used for all PDF sets  
+  \end{itemize}   
+}
+
+\frame{
+  \frametitle{T2cc: $H_T>275$~GeV}
+  
+  \begin{columns}[ccc]
+    \column{0.33\paperwidth}\centering
+    Acceptance Ratio
+    \includegraphics[width=\textwidth]{../output_fullScale/T2cc_nnpdf_ct10_275_genct10_acc_ratio.pdf} \\
+    $\frac{CTEQ6L1}{CTEQ10}$
+    
+    \column{0.33\paperwidth}\centering
+    Acceptance Ratio
+    \includegraphics[width=\textwidth]{../output_fullScale/T2cc_nnpdf_ct10_275_genNNPDF21_acc_ratio.pdf} \\
+    $\frac{CTEQ6L1}{NNPDF2.1}$
+
+    \column{0.33\paperwidth}\centering
+    Acceptance Ratio
+    \includegraphics[width=\textwidth]{../output_fullScale/T2cc_275_genMSTW2008nlo68cl_acc_ratio.pdf} \\
+    $\frac{CTEQ6L1}{MSTW2008}$
+
+
+  \end{columns}
+  \begin{itemize}
+  \item Central value of PDF used for all PDF sets  
+  \item Use these ratios to normalize initial number of events
+  \end{itemize}   
+}
+
+
+\frame{
+  \frametitle{Backup}
+}
+
+\frame{
+  \frametitle{Normalization}
+      \begin{align}
+      \epsilon_{cteq6.6}& \equiv \frac{n_{cteq6.6}^{after}}{n_{cteq6.6}^{before}} \\
+      \epsilon_{cteq6L1}& =\epsilon_{cteq6.6} \cdot \left( \frac{\epsilon_{cteq6L1}}{\epsilon_{cteq6.6}} \right) \\
+                        & =\left(\frac{n_{cteq6.6}^{after}}{n_{cteq6.6}^{before}} \right) \cdot \left( \frac{\epsilon_{cteq6L1}}{\epsilon_{cteq6.6}} \right) \\
+                        & =\frac{n_{cteq6.6}^{after}}{n_{cteq6.6}^{before} \left(\frac{\epsilon_{cteq6.6}}{\epsilon_{cteq6L1}} \right)} = \epsilon_{cteq6.6}^{normalized}    
+      \end{align}
+}
+
+
+\end{document}
+
+
+
