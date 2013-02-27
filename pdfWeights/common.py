@@ -1,4 +1,4 @@
-version = ["v1","v2","v3","v4"][3]
+version = ["v1","v2","v3","v4","v5"][4]
 
 afadd_275 = "master/progressPrinter/label/scanHistogrammer/monster/hbheNoise/multiplicity/multiplicity/l1Filter/physicsDeclaredFilter/lowestUnPrescaledTriggerFilter/jetPtSelector/jetPtSelector/jetEtaSelector/value/value/multiplicity/multiplicity/multiplicity/multiplicity/multiplicity/histogrammer/value/deadEcalFilter/cleanJetHtMhtHistogrammer/alphaHistogrammer/histogrammer/value/value/histogrammer/histogrammer/histogrammer/cleanJetHtMhtHistogrammer/histogrammer/histogrammer/histogrammer/label/scanHistogrammer/"
 afadd_375 = afadd_275.replace("lowestUnPrescaledTriggerFilter/", "").replace("jetEtaSelector/value/value/multiplicity/","jetEtaSelector/value/multiplicity/")
@@ -12,7 +12,8 @@ mods_and_pdfs = [("T1bbbb",["gencteq66","genMSTW2008nlo68cl"]),
                  ("T1bbbb_nnpdf_ct10",["genNNPDF21","genct10"]),
                  ("T2bb",["gencteq66","genMSTW2008nlo68cl"]),
                  ("T2bb_nnpdf_ct10",["genNNPDF21","genct10"]),
-                 ("T2cc_nnpdf_ct10",["genNNPDF21","genct10"])][4:5]
+                 ("T2cc",["genMSTW2008nlo68cl"]),
+                 ("T2cc_nnpdf_ct10",["genNNPDF21","genct10"])][4:6]
 
 histPrefix = ["nEvents"]
 dirPrefix = ["smsScan"]
@@ -45,4 +46,5 @@ for bJet in bJets :
 dirNames.append("smsScan_ge4b_ge4j_AlphaT55_375")
 
 nPdfDict = {"gencteq66":45,"genMSTW2008nlo68cl":41,"genct10":53,"genNNPDF21":101}
+#nPdfDict = {"gencteq66":45,"genMSTW2008nlo68cl":3,"genct10":3,"genNNPDF21":3}
 
