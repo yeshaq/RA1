@@ -178,7 +178,6 @@ def initHistos(histosDict) :
 	if hist[3] :
 		blah.SetMinimum(hist[3])
 		blah.SetMaximum(hist[4])
-	print 	hist[4], blah.GetMaximum()
         histos[key] = blah
     return histos
 
