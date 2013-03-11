@@ -192,7 +192,6 @@ def shift2DHistos(histos, shiftX = 0.0 , shiftY = 0.0) :
         histName = hist.GetName()
         histTitle = hist.GetTitle()
 	zMax = hist.GetMaximum()
-	print zMax
 	zMin = hist.GetMinimum()
 	hist.Rebin2D(5,2)
 
@@ -218,7 +217,6 @@ def shift2DHistos(histos, shiftX = 0.0 , shiftY = 0.0) :
         shiftedYmax = yMax + shiftY*dYbin
 	
 
-        print nXbins, nYbins, xMin, yMin, xMax, yMax, shiftedXmin, shiftedXmax
         shiftedHist = r.TH2D(histName, histTitle, nXbins, shiftedXmin, shiftedXmax, nYbins, shiftedYmin, shiftedYmax)
         for xbin in range(nXbins) :
             for ybin in range(nYbins) :
