@@ -182,7 +182,7 @@ def initHistos(histosDict) :
     return histos
 
 
-def shift2DHistos(histos, shiftX = 0.0 , shiftY = 0.0) :
+def shift2DHistos(histos, shiftX = 0.0 , shiftY = 0.0, rebinX = 0.0, rebinY = 0.0) :
 
     hists = {}
     for key in histos :
@@ -192,7 +192,8 @@ def shift2DHistos(histos, shiftX = 0.0 , shiftY = 0.0) :
         histTitle = hist.GetTitle()
 	zMax = hist.GetMaximum()
 	zMin = hist.GetMinimum()
-	hist.Rebin2D(5,2)
+	if not rebinX == 0.0 :
+		hist.Rebin2D(rebinX,rebinY)
 
         xAxis = hist.GetXaxis()
         yAxis = hist.GetYaxis()
@@ -346,7 +347,7 @@ for key in envCv_and_envUn:
 	histos["envDnRelHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),(envCv_and_envUn[key][0]-envCv_and_envUn[key][1])/envCv_and_envUn[key][2])
 	histos["envFracUncHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),(envCv_and_envUn[key][1])/envCv_and_envUn[key][0])
 
-shiftedHistos = shift2DHistos(histos, -0.5)
+shiftedHistos = shift2DHistos(histos, -0.5, 0.0, 5, 2)
 drawAndPrint(shiftedHistos)
 
 compFile.Close()
