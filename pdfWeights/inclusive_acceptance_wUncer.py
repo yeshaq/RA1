@@ -56,7 +56,6 @@ def MakeCvAndErrorTGraph(histName, x, xl, xh, nominal, mstop, mlsp, pdfSetOrder)
 	null.SetTitle("Central value and uncertainties for mStop = %s, mLSP = %s"%(mstop,mlsp) );
 	r.gStyle.SetTitleFontSize(0.08);
 	null.Draw()
-
 	compHist.Draw("p")
 
 	canvas.Size(6,1.2)
@@ -66,7 +65,7 @@ def MakeCvAndErrorTGraph(histName, x, xl, xh, nominal, mstop, mlsp, pdfSetOrder)
 	os.system("epstopdf "+ noDots)
 	os.remove(noDots)
  	compHist.Write("",r.TObject.kOverwrite)
-
+	return [envCv, envUn, nominal[0]]
 
 def MakeRelativeAccChangeTGraph(histName, x, xl, xh, nominal, mstop, mlsp, pdfSetOrder) :
 	## comment  avg = x + (xh - xl)/2 
@@ -170,6 +169,85 @@ def nnpdfErrorCalc(numHist, denHist, pdfSet, xbin, ybin) :
     tmp = [centralAcc, stddev, stddev,numHist.GetBinContent(xbin,ybin)]
     return tmp
 
+def initHistos(histosDict) :
+
+    histos = {}
+    for key in histosDict:
+        hist = histosDict[key]
+        blah = r.TH2D(hist[0],hist[1],hist[2][0],hist[2][1],hist[2][2],hist[2][3],hist[2][4],hist[2][5])
+	if hist[3] :
+		blah.SetMinimum(hist[3])
+		blah.SetMaximum(hist[4])
+	print 	hist[4], blah.GetMaximum()
+        histos[key] = blah
+    return histos
+
+
+def shift2DHistos(histos, shiftX = 0.0 , shiftY = 0.0) :
+
+    hists = {}
+    for key in histos :
+	    
+        hist = histos[key]
+        histName = hist.GetName()
+        histTitle = hist.GetTitle()
+	zMax = hist.GetMaximum()
+	print zMax
+	zMin = hist.GetMinimum()
+	hist.Rebin2D(5,2)
+
+        xAxis = hist.GetXaxis()
+        yAxis = hist.GetYaxis()
+
+        nXbins = xAxis.GetNbins()
+        nYbins = yAxis.GetNbins()
+
+        xMin = xAxis.GetXmin()
+        yMin = yAxis.GetXmin()
+
+        xMax = xAxis.GetXmax()
+        yMax = yAxis.GetXmax()
+
+        dXbin = (xMax - xMin) / nXbins
+        dYbin = (yMax - yMin) / nYbins
+
+        shiftedXmin = xMin + shiftX*dXbin
+        shiftedXmax = xMax + shiftX*dXbin
+
+        shiftedYmin = yMin + shiftY*dYbin
+        shiftedYmax = yMax + shiftY*dYbin
+	
+
+        print nXbins, nYbins, xMin, yMin, xMax, yMax, shiftedXmin, shiftedXmax
+        shiftedHist = r.TH2D(histName, histTitle, nXbins, shiftedXmin, shiftedXmax, nYbins, shiftedYmin, shiftedYmax)
+        for xbin in range(nXbins) :
+            for ybin in range(nYbins) :
+                shiftedHist.SetBinContent(xbin+1,ybin+1,hist.GetBinContent(xbin+1,ybin+1))
+	shiftedHist.SetMinimum(zMin)
+	shiftedHist.SetMaximum(zMax)
+        hists[key] = shiftedHist
+    return hists
+
+def drawAndPrint(histos) :
+	
+	canvas.Size(0,0)
+	canvas.SetWindowSize(800,600)
+	for key in histos:
+		hist = histos[key]
+		hist.SetTitle("%s;m_{stop} (GeV);m_{LSP} (GeV);"%(hist.GetTitle())) 
+#		if "frac" in hist.GetName() :
+#			hist.SetTitle(";m_{stop} (GeV);m_{LSP} (GeV); percentage")
+		epsFileName = "output_cv_and_errors/" + hist.GetName() + ".eps" 
+		hist.Draw("colz")
+		hist.SetStats(False)
+		canvas.Print(epsFileName)
+		os.system("epstopdf " + epsFileName)
+		os.remove(epsFileName)
+
+
+
+
+
 cv_and_errors = {}
 cv = {}
 cv_up= {}
@@ -238,11 +316,40 @@ for modAndPdf in c.mods_and_pdfs :
 				nominal_list[key.replace("%s_"%pdfSet,"")].append(nominal_tmp[key])
 
 
+
+envCv_and_envUn = {}
 for key in cv_list :
-	mstop_mlsp = key.split("_")
-	mstop = ((float(mstop_mlsp[0])-1)*5)+90
-	mlsp = ((float(mstop_mlsp[1])-1)*5)+10
-	MakeCvAndErrorTGraph(key, cv_list[key], cv_dn_list[key], cv_up_list[key], nominal_list[key], mstop, mlsp, pdfSetOrder) 	
+	mstop_mlsp_bins = key.split("_")
+	mstop = ((float(mstop_mlsp_bins[0])-1)*5)+90
+	mlsp = ((float(mstop_mlsp_bins[1])-1)*5)+10
+	envCv_and_envUn[key] = MakeCvAndErrorTGraph(key, cv_list[key], cv_dn_list[key], cv_up_list[key], nominal_list[key], mstop, mlsp, pdfSetOrder) 	
 	MakeRelativeAccChangeTGraph(key, cv_list[key], cv_dn_list[key], cv_up_list[key], nominal_list[key], mstop, mlsp, pdfSetOrder) 	
+
+binning = [35,100,275,50,10,260]
+histosDict = {"envCvHist": ["acc_cv_m0_m12","Central Value Acceptance from Envelope Formula", binning, None, None],
+              "envUpHist": ["acc_pSigma_m0_m12","+1 #sigma Acceptance from Envelope Formula", binning, None, None,],
+              "envDnHist": ["acc_mSigma_m0_m12","-1 #sigma Acceptance from Envelope Formula",binning, None, None],
+              "envCvRelHist": ["acc_cvRel_m0_m12","Central Value Acceptance from Envelope Formula Relative to Nominal", binning, 0.95, 1.14],
+              "envUpRelHist": ["acc_pSigmaRel_m0_m12","+1 #sigma Acceptance from Envelope Formula Relative to Nominal", binning, 0.95, 1.21],
+              "envDnRelHist": ["acc_mSigmaRel_m0_m12","-1 #sigma Acceptance from Envelope Formula Relative to Nominal", binning, 0.9, 1.08],
+              "envFracUncHist" : ["acc_SigmaFrac_m0_m12","Fractional Uncertainty  #sigma(acceptance) / C.V.(acceptance)", binning, 0.02, 0.08]}
+
+
+histos = initHistos(histosDict)
+
+for key in envCv_and_envUn:
+	mstop_mlsp_bins = key.split("_")
+	mstop_bin = mstop_mlsp_bins[0]
+	mlsp_bin = mstop_mlsp_bins[1]
+	histos["envCvHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),envCv_and_envUn[key][0])
+	histos["envUpHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),envCv_and_envUn[key][0]+envCv_and_envUn[key][1])
+	histos["envDnHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),envCv_and_envUn[key][0]-envCv_and_envUn[key][1])
+	histos["envCvRelHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),envCv_and_envUn[key][0]/envCv_and_envUn[key][2])
+	histos["envUpRelHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),(envCv_and_envUn[key][0]+envCv_and_envUn[key][1])/envCv_and_envUn[key][2])
+	histos["envDnRelHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),(envCv_and_envUn[key][0]-envCv_and_envUn[key][1])/envCv_and_envUn[key][2])
+	histos["envFracUncHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),(envCv_and_envUn[key][1])/envCv_and_envUn[key][0])
+
+shiftedHistos = shift2DHistos(histos, -0.5)
+drawAndPrint(shiftedHistos)
 
 compFile.Close()
