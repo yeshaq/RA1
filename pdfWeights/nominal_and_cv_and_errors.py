@@ -134,14 +134,14 @@ for weight in c.weights :
 	                            for ybin in range(histList[0].GetYaxis().GetNbins()) :
                                         if (histList[0].GetBinContent(xbin,ybin)) == 0.0 : continue
 	                                if "NNPDF" not in pdfSet :
-                                            if dirkey.GetName() == "smsScan_before" :
+#                                            if dirkey.GetName() == "smsScan_before" :
+                                                print dirkey.GetName() 
                                                 cv_and_errors = MasterEquation(histList, pdfSet, xbin, ybin)
                                                 m0_m12_mChi_noweight.SetBinContent(xbin,ybin,cv_and_errors[0])
                                                 
                                         else :
-                                            if dirkey.GetName() == "smsScan_before" :
+#                                            if dirkey.GetName() == "smsScan_before" :
                                                 nnpdfErrorCalc(histList, pdfSet, xbin, ybin)
-                                
 #                    dirList = infile.GetListOfKeys()
 #                    befkeylist = befdir.GetListOfKeys()
 #
