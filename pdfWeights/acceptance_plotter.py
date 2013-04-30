@@ -1,8 +1,6 @@
 import ROOT as r
 import common as c
-import os, subprocess
-
-
+import os, subprocess, sys
 
 canvas = r.TCanvas()
 canvas.SetRightMargin(0.2)
@@ -21,8 +19,7 @@ for modAndPdf in mods_and_pdfs :
             accHist = accFile.Get("nEvents")
             if not pdfSet == "" :  accHist = accFile.Get("nEvents%s_0"%pdfSet)
             result = accHist.Clone()
-    
-            result.SetTitle(";m_{parent} (GeV);m_{LSP} (GeV);acceptance") 
+            result.SetTitle(";m_{parent} (GeV);m_{LSP} (GeV);") 
             result.SetMarkerStyle(20)
             result.SetStats(False)
             
@@ -35,28 +32,24 @@ for modAndPdf in mods_and_pdfs :
             if "T2bb" in modAndPdf[0] :
                 result.GetXaxis().SetRangeUser(0,1200)
                 result.GetYaxis().SetRangeUser(0,1200)
-
+            
                 line = r.TLine(300,125,1225,1050)
                 #line = r.TLine(300,125,1200,1025)
                 line2 = r.TLine(300,50,300,125)
                 lineDiag = r.TLine(100,100,1225,1225)
-
+            
             if "T2cc" in modAndPdf[0] :
-                result.GetXaxis().SetRangeUser(100,300)
-                result.GetYaxis().SetRangeUser(0, 300)
-                result.RebinY(2)
-                result.RebinX(5)
+                result.SetMaximum(.0125)
                 line = r.TLine(300,125,1225,1050)
                 #line = r.TLine(300,125,1200,1025)
                 line2 = r.TLine(300,50,300,125)
                 lineDiag = r.TLine(100,100,1225,1225)
-
-
+            result.SetStats(False)
             result.Draw("colz")
-
+            
             if "T2cc" not in modAndPdf[0] :
 	            lineDiag.SetLineStyle(2)
-	           
+                    
 	            line.SetLineWidth(2)
 	            line2.SetLineWidth(2)
 	            lineDiag.SetLineWidth(2)
@@ -66,7 +59,7 @@ for modAndPdf in mods_and_pdfs :
 	            lineDiag.Draw("lsame")
 	           
             canvas.Print(epsFileName)
-           
+            
             os.system("epstopdf "+ epsFileName)
             os.remove(epsFileName)
 
