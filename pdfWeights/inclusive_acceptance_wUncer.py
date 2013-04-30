@@ -227,9 +227,13 @@ def shift2DHistos(histos, shiftX = 0.0 , shiftY = 0.0, rebinX = 0.0, rebinY = 0.
     return hists
 
 def drawAndPrint(histos) :
-	
-	canvas.Size(0,0)
-	canvas.SetWindowSize(800,600)
+	w = 1200
+	h = 600
+	c = r.TCanvas("c","c", w, h)
+	#c.SetWindowSize(w + (w - c.GetWw()),h + (h - c.GetWh()))
+	c.SetWindowSize(w + 100, h + 100)
+        #canvas.Size(0,0)
+	#canvas.SetWindowSize(600,600)
 	for key in histos:
 		hist = histos[key]
 		hist.SetTitle("%s;m_{stop} (GeV);m_{LSP} (GeV);"%(hist.GetTitle())) 
@@ -238,7 +242,7 @@ def drawAndPrint(histos) :
 		epsFileName = "output_cv_and_errors/" + hist.GetName() + ".eps" 
 		hist.Draw("colz")
 		hist.SetStats(False)
-		canvas.Print(epsFileName)
+		c.Print(epsFileName)
 		os.system("epstopdf " + epsFileName)
 		os.remove(epsFileName)
 
@@ -276,19 +280,20 @@ for modAndPdf in c.mods_and_pdfs :
 
             for xbin in range(denHist[0].GetXaxis().GetNbins()) :
                 for ybin in range(denHist[0].GetYaxis().GetNbins()) :
-                    if (result.GetBinContent(xbin,ybin)) == 0.0 : continue
+                    if (result.GetBinContent(xbin+1,ybin+1)) == 0.0 : continue
+		    print "xbin+1", xbin+1, "ybin+1", ybin+1
                     if "NNPDF" not in pdfSet :
-		        cv_and_errors["%s_%s_%s"%(pdfSet,xbin,ybin)] = MasterEquation(numHist, denHist, pdfSet, xbin, ybin)
-			cv["%s_%s_%s"%(pdfSet,xbin,ybin)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin,ybin)][0]
-			cv_up["%s_%s_%s"%(pdfSet,xbin,ybin)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin,ybin)][1]
-			cv_dn["%s_%s_%s"%(pdfSet,xbin,ybin)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin,ybin)][2]
-			nominal["%s_%s_%s"%(pdfSet,xbin,ybin)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin,ybin)][3]
+		        cv_and_errors["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)] = MasterEquation(numHist, denHist, pdfSet, xbin+1, ybin+1)
+			cv["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)][0]
+			cv_up["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)][1]
+			cv_dn["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)][2]
+			nominal["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)][3]
                     else :
-                        cv_and_errors["%s_%s_%s"%(pdfSet,xbin,ybin)] = nnpdfErrorCalc(numHist, denHist, pdfSet, xbin, ybin)
-			cv["%s_%s_%s"%(pdfSet,xbin,ybin)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin,ybin)][0]
-			cv_up["%s_%s_%s"%(pdfSet,xbin,ybin)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin,ybin)][1]
-			cv_dn["%s_%s_%s"%(pdfSet,xbin,ybin)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin,ybin)][2]
-			nominal["%s_%s_%s"%(pdfSet,xbin,ybin)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin,ybin)][3]
+                        cv_and_errors["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)] = nnpdfErrorCalc(numHist, denHist, pdfSet, xbin+1, ybin+1)
+			cv["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)][0]
+			cv_up["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)][1]
+			cv_dn["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)][2]
+			nominal["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)] = cv_and_errors["%s_%s_%s"%(pdfSet,xbin+1,ybin+1)][3]
 		    if not pdfSet in pdfSetOrder : pdfSetOrder.append(pdfSet)
 
 compFile = r.TFile("output_cv_and_errors/inclusive_cv_acc_werrrors.root","UPDATE")			
@@ -318,12 +323,12 @@ for modAndPdf in c.mods_and_pdfs :
 envCv_and_envUn = {}
 for key in cv_list :
 	mstop_mlsp_bins = key.split("_")
-	mstop = ((float(mstop_mlsp_bins[0])-1)*5)+90
+	mstop = ((float(mstop_mlsp_bins[0])-1)*25)+100
 	mlsp = ((float(mstop_mlsp_bins[1])-1)*5)+10
 	envCv_and_envUn[key] = MakeCvAndErrorTGraph(key, cv_list[key], cv_dn_list[key], cv_up_list[key], nominal_list[key], mstop, mlsp, pdfSetOrder) 	
 	MakeRelativeAccChangeTGraph(key, cv_list[key], cv_dn_list[key], cv_up_list[key], nominal_list[key], mstop, mlsp, pdfSetOrder) 	
 
-binning = [35,100,275,50,10,260]
+binning = [7,87.5,262.5,50,7.5,257.5]
 histosDict = {"envCvHist": ["acc_cv_m0_m12","Central Value Acceptance from Envelope Formula", binning, None, None],
               "envUpHist": ["acc_pSigma_m0_m12","+1 #sigma Acceptance from Envelope Formula", binning, None, None,],
               "envDnHist": ["acc_mSigma_m0_m12","-1 #sigma Acceptance from Envelope Formula",binning, None, None],
@@ -339,15 +344,16 @@ for key in envCv_and_envUn:
 	mstop_mlsp_bins = key.split("_")
 	mstop_bin = mstop_mlsp_bins[0]
 	mlsp_bin = mstop_mlsp_bins[1]
-	histos["envCvHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),envCv_and_envUn[key][0])
-	histos["envUpHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),envCv_and_envUn[key][0]+envCv_and_envUn[key][1])
-	histos["envDnHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),envCv_and_envUn[key][0]-envCv_and_envUn[key][1])
-	histos["envCvRelHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),envCv_and_envUn[key][0]/envCv_and_envUn[key][2])
-	histos["envUpRelHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),(envCv_and_envUn[key][0]+envCv_and_envUn[key][1])/envCv_and_envUn[key][2])
-	histos["envDnRelHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),(envCv_and_envUn[key][0]-envCv_and_envUn[key][1])/envCv_and_envUn[key][2])
-	histos["envFracUncHist"].SetBinContent(int(mstop_bin)-2,int(mlsp_bin),(envCv_and_envUn[key][1])/envCv_and_envUn[key][0])
+	histos["envCvHist"].SetBinContent(int(mstop_bin),int(mlsp_bin),envCv_and_envUn[key][0])
+	histos["envUpHist"].SetBinContent(int(mstop_bin),int(mlsp_bin),envCv_and_envUn[key][0]+envCv_and_envUn[key][1])
+	histos["envDnHist"].SetBinContent(int(mstop_bin),int(mlsp_bin),envCv_and_envUn[key][0]-envCv_and_envUn[key][1])
+	histos["envCvRelHist"].SetBinContent(int(mstop_bin),int(mlsp_bin),envCv_and_envUn[key][0]/envCv_and_envUn[key][2])
+	histos["envUpRelHist"].SetBinContent(int(mstop_bin),int(mlsp_bin),(envCv_and_envUn[key][0]+envCv_and_envUn[key][1])/envCv_and_envUn[key][2])
+	histos["envDnRelHist"].SetBinContent(int(mstop_bin),int(mlsp_bin),(envCv_and_envUn[key][0]-envCv_and_envUn[key][1])/envCv_and_envUn[key][2])
+	histos["envFracUncHist"].SetBinContent(int(mstop_bin),int(mlsp_bin),(envCv_and_envUn[key][1])/envCv_and_envUn[key][0])
 
-shiftedHistos = shift2DHistos(histos, -0.5, 0.0, 5, 2)
+#shiftedHistos = shift2DHistos(histos, -0.5, -0.5, 5, 1)
+shiftedHistos = histos
 drawAndPrint(shiftedHistos)
 
 compFile.Close()
